@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+.cache/
+public/build/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Database
+*.db
+*.db-journal
+
+# Logs
+npm-debug.log*
+
+# OS files
+.DS_Store
+
+# Fly.io
+.fly/
