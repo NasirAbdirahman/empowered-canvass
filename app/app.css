@@ -28,3 +28,12 @@ html,
 body {
   @apply bg-background text-gray-900;
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
