@@ -4,7 +4,7 @@ node_modules/
 # Build outputs
 build/
 .cache/
-public/build/
+.react-router/
 
 # Environment variables
 .env
