@@ -227,7 +227,7 @@ export default function NoteDetailPage() {
     if (navigation.state === "idle" && !actionData?.errors) {
       editMode.close();
     }
-  }, [navigation.state, actionData, editMode]);
+  }, [navigation.state, actionData, editMode.close]);
 
   // Show skeleton when navigating to note page
   if (navigation.state === "loading") {
