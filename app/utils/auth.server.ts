@@ -98,3 +98,13 @@ export async function requireUser(request: Request) {
 function logout(request: Request) {
   return redirect("/login");
 }
+
+
+// Exportable password utilities for testing
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
+}
+
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(password, hash);
+}
