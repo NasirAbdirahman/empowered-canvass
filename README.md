@@ -565,6 +565,13 @@ npx prisma migrate status
 
 For questions about this project, please contact the developer.
 
+
+## Video Demo
+
+https://github.com/user-attachments/assets/1c3c0d7b-01f3-414b-9373-d67ecc153830
+
+
+
 **Project Repository**: [[Empowered Canvass](https://github.com/NasirAbdirahman/empowered-canvass)]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
