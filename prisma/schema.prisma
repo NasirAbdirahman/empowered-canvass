@@ -1,0 +1,85 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - Authentication and user management
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashed with bcrypt
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  ownedProjects    Project[]        @relation("ProjectOwner")
+  projectMemberships ProjectMember[]
+  canvassingNotes  CanvassingNote[]
+
+  @@map("users")
+}
+
+// Project model - Canvassing campaigns
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  ownerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  owner   User              @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members ProjectMember[]
+  notes   CanvassingNote[]
+
+  @@index([ownerId])
+  @@map("projects")
+}
+
+// ProjectMember model - Many-to-many join table for User <-> Project
+model ProjectMember {
+  id        String   @id @default(cuid())
+  userId    String
+  projectId String
+  role      String   @default("member") // "owner" or "member"
+  joinedAt  DateTime @default(now())
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+  @@index([userId])
+  @@index([projectId])
+  @@map("project_members")
+}
+
+// CanvassingNote model - Individual canvassing interactions
+model CanvassingNote {
+  id           String   @id @default(cuid())
+  projectId    String
+  userId       String   // Creator of the note
+  contactName  String   // Name of person talked to
+  contactEmail String?  // Optional email (validated)
+  notes        String   @db.Text // Free-form notes (textarea) - supports long text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([userId])
+  @@index([contactName])
+  @@index([createdAt])
+  @@map("canvassing_notes")
+}
